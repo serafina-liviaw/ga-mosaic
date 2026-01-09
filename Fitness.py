@@ -1,5 +1,7 @@
 import math
 
+#Sumber kode -> Dokumen Mosaic, LLM 
+
 # count black box : hitung jumlah kotak hitam sebenarnya pada papan individual 
 def count_black_box(chromosome, x, y, size):
     count = 0
