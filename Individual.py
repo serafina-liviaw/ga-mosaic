@@ -304,7 +304,7 @@ class Individual:
         # sel discan secara iteratif, sel harus memiliki nilai isCertain FALSE
         # cek apakah elligible untuk heuristik 4 sebagai berikut
 
-        isAnyChangesCanBeMade = True # stop jika tidak ada sel baru yang dapat diganti
+        isAnyChangesCanBeMade = True # stop jika tidak ada sel yang dapat diubah
         while isAnyChangesCanBeMade:
             isAnyChangesCanBeMade = False
             
@@ -380,6 +380,7 @@ class Individual:
                         if has_unsolved_clue:
                             self.chromosome[i][j] = random.randint(0, 1)
                             self.certainCells.add((i, j))
+
 
             # heuristik 4d: jika penandaan sel sebagai hitam melanggar constraint, tandai sebagai putih
             for i in range(self.size):
