@@ -15,18 +15,19 @@ class Fitness:
     # fungsi untuk menghitung penalti dari solusi individual
     def compute_fitness(self, individual):
         fitness = 0
-        penalty = self.count_penalty(individual, self.board)
+        penalty, violation = self.count_penalty_violation(individual)
 
         # hitung fitness 
         fitness = 1 / (1 + penalty)
-        return fitness, penalty
+        return fitness, penalty, violation
 
     # fungsi untuk menghitung penalty pada setiap individu 
-    def count_penalty(self, individual):
+    def count_penalty_violation(self, individual):
         penalty = 0 
+        violation = 0
         size = individual.size
 
-        # lakukan loop untuk baris dan kolom individual 
+        # lakukan loop untuk mengecek setiap kotak pada baris dan kolom individual 
         for i in range(size):
             for j in range(size): 
                 # jika pada sel tidak ada clue, skip
@@ -42,7 +43,10 @@ class Fitness:
                 # hitung penalti berdasarkan selisih antara expected dan actual 
                 penalty += abs(expected_black_box - actual_black_box)
 
-        return penalty 
+                # hitung jumlah pelanggaran terhadap aturan game pada tiap individu 
+                if expected_black_box != actual_black_box: 
+                    violation += 1
+        return penalty, violation
     
     # count_black_box : hitung jumlah kotak hitam sebenarnya pada papan individual 
     def count_black_box(self, chromosome, x, y):

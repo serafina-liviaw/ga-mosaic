@@ -16,7 +16,7 @@ class Individual:
         # melambangkan pewarnaan papan
         # 0: sel berwarna putih
         # 1: sel berwarna hitam
-        self.chromosome = [[0 for _ in range(size)] for _ in range(size)]
+        self.chromosome = [[0 for _ in range(self.size)] for _ in range(self.size)]
 
         # array untuk menandai pewarnaan sel yang sudah pasti benar, misal berdasarkan heuristik 1-3
         # fungsi: agar warna yang sudah sesuai tidak terwarna ulang
@@ -44,13 +44,13 @@ class Individual:
 
     # method untuk generate kromosom berdasarkan strategi heuristik 1-3 + random fill saja
     def generate_chromosome_1stStrat(self):
-        self.fill_by_heu1to3(self.board)
-        self.fill_randomly(self.board)
+        self.fill_by_heu1to3()
+        self.fill_randomly()
 
     # method untuk generate kromosom berdasarkan strategi heuristik 1-3 + random fill dengan memerhatikan heuristik 4
     def generate_chromosome_2ndStrat(self):
-        self.fill_by_heu1to3(self.board)
-        self.fill_w_heu4(self.board)
+        self.fill_by_heu1to3()
+        self.fill_w_heu4()
 
 
     # method untuk melakukan pewarnaan berdasarkan heuristik 1-3 (penjelasan pada dokumen)
@@ -390,7 +390,7 @@ class Individual:
                         needed_black = clue - black_count
                         validCandidates = []
                         for ni, nj in neighbors: # cari kandidat valid dari sel kosong
-                            if (ni, nj) not in self.certainCells and self.is_valid_if_black(ni, nj, self.board):
+                            if (ni, nj) not in self.certainCells and self.is_valid_if_black(ni, nj):
                                 validCandidates.append((ni, nj))
                         
                         # jika jumlah sel kosong sama dengan jumlah sel hitam yang dibutuhkan, sel kosong tersebut pasti hitam
@@ -401,14 +401,14 @@ class Individual:
                                 isAnyChangesCanBeMade = True
                
             # random fill (hanya untuk sel not certain yang berada di sekitar clue unsolved)                 
-            self.fill_randomly(self.board)
+            self.fill_randomly()
 
             # jika penandaan sel sebagai hitam melanggar constraint, tandai sebagai putih
             for i in range(self.size):
                 for j in range(self.size):
                     if (i, j) not in self.certainCells:
                         # cek apakah pengisian sel valid
-                        if not self.is_valid_if_black(i, j, self.board):
+                        if not self.is_valid_if_black(i, j):
                             self.chromosome[i][j] = 0
                             self.certainCells.add((i, j))
                             isAnyChangesCanBeMade = True
