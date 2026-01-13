@@ -1,7 +1,7 @@
 import random
 
 # Individual adalah entitas yang merepresentasikan 1 solusi mosaic puzzle tertentu
-# @author Serafina Livia Wardhana
+# @author  Serafina Livia Wardhana
 class Individual:
     def __init__(self, size):
         # ukuran papan game mosaic
@@ -24,6 +24,7 @@ class Individual:
 
     # method untuk menghasilkan kromosom pada satu individual
     # solusi awal digenerate berdasarkan heuristik untuk mempercepat algoritma
+    # @param  board papan permainan yang berisi clue
     def generate_chromosome(self, board):
 
         # warnai papan berdasarkan aturan heuristik 1-3 
@@ -34,13 +35,13 @@ class Individual:
 
 
     # method untuk melakukan pewarnaan berdasarkan heuristik 1-3 (penjelasan pada dokumen)
-    # warna akan ditandai sebagai TRUE pada isCertain
+    # @param  board papan permainan yang berisi clue
     def fill_by_heu1to3(self, board):
         for i in range(self.size):
             for j in range(self.size):
 
                 # jika pada sel tidak ada clue, skip
-                if board[i][j] == -1: #sementara -1
+                if board[i][j] == -1: 
                     continue
 
                 # untuk clue di sudut papan
@@ -299,7 +300,8 @@ class Individual:
                         self.certainCells.add((i+1, j+1))
                         self.solvedClues.add((i, j))  
                 
-
+    # method untuk melakukan pewarnaan berdasarkan heuristik 4 (penjelasan pada dokumen)
+    # @param board  papan permainan yang berisi clue
     def fill_w_heu4(self, board):
         # sel discan secara iteratif, sel harus memiliki nilai isCertain FALSE
         # cek apakah elligible untuk heuristik 4 sebagai berikut
@@ -325,7 +327,7 @@ class Individual:
             # scan semua sel pada board untuk mencari clue 
             for i in range(self.size):
                 for j in range(self.size):
-                    if board[i][j] == -1:  # skip jika bukan clue (sementara -1)
+                    if board[i][j] == -1:  # skip jika bukan clue 
                         continue
                     
                     if (i, j) in self.solvedClues: # skip clue yang sudah solved
@@ -344,7 +346,7 @@ class Individual:
                         elif (ni, nj) not in self.certainCells:  # sel kosong yang belum pasti
                             empty_cells.append((ni, nj))
                     
-                    # heuristik 4a: jika jumlah sel hitam sudah cukup, sel kosong tersebut pasti putih
+                    # jika jumlah sel hitam sudah cukup, sel kosong tersebut pasti putih
                     if black_count == clue:
                         for ni, nj in empty_cells:
                             self.chromosome[ni][nj] = 0
@@ -359,7 +361,7 @@ class Individual:
                             if (ni, nj) not in self.certainCells and self.is_valid_if_black(ni, nj, board):
                                 validCandidates.append((ni, nj))
                         
-                        # heuristik 4b + 4c: jika jumlah sel kosong sama dengan jumlah sel hitam yang dibutuhkan, sel kosong tersebut pasti hitam
+                        # jika jumlah sel kosong sama dengan jumlah sel hitam yang dibutuhkan, sel kosong tersebut pasti hitam
                         if len(validCandidates) == needed_black and needed_black > 0:
                             for ni, nj in validCandidates:
                                 self.chromosome[ni][nj] = 1
@@ -379,10 +381,9 @@ class Individual:
                         
                         if has_unsolved_clue:
                             self.chromosome[i][j] = random.randint(0, 1)
-                            self.certainCells.add((i, j))
 
 
-            # heuristik 4d: jika penandaan sel sebagai hitam melanggar constraint, tandai sebagai putih
+            # jika penandaan sel sebagai hitam melanggar constraint, tandai sebagai putih
             for i in range(self.size):
                 for j in range(self.size):
                     if (i, j) not in self.certainCells:
@@ -394,40 +395,41 @@ class Individual:
             
             
     # method untuk mendapatkan koordinat semua sel tetangga termasuk diri sendiri
+    # @param i  nomor baris yang ditempati tetangga 
+    # @param j  nomor kolom yang ditempati tetangga
     def get_neighbors(self, i, j):
         neighbors = []
         for di in [-1, 0, 1]:
             for dj in [-1, 0, 1]:
-                ni, nj = i + di, j + dj
+                ni = i + di
+                nj = j + dj
                 if 0 <= ni < self.size and 0 <= nj < self.size:
                     neighbors.append((ni, nj))
         return neighbors
     
     # method untuk mengecek apakah pewarnaan sel hitam pada sel (i,j) melanggar constraint
+    # @param i  nomor baris yang ditempati sel target
+    # @param j  nomor kolom yang ditempati sel target
     def is_valid_if_black(self, i, j, board):
         neighbors = self.get_neighbors(i, j)
         
-        for ni, nj in neighbors:
-            if board[ni][nj] == -1:  # skip jika bukan clue (sementara -1)
+        for ni, nj in neighbors: 
+            if board[ni][nj] == -1: # cari tetangga target yang merupakan clue
                 continue
             
             clue = board[ni][nj]
             neighbor_neighbors = self.get_neighbors(ni, nj) # cari koordinat tetangga dari tetangga
             
-            # hitung berapa hitam jika (i,j) diset hitam
+            # hitung berapa sel hitam yang ada jika (i,j) diset hitam 
             black_count = 0
-            empty_count = 0
+            empty_count = 0 # jumlah sel putih dan yang belum pasti warnanya
             for nni, nnj in neighbor_neighbors:
-                if self.chromosome[nni][nnj] == 1 or (nni == i and nnj == j):
+                if self.chromosome[nni][nnj] == 1 or (nni == i and nnj == j): 
                     black_count += 1
-                elif (nni, nnj) not in self.certainCells:
+                elif (nni, nnj) not in self.certainCells: 
                     empty_count += 1
-            
-            # Validasi: black_count tidak boleh melebihi clue
-            if black_count > clue:
-                return False
-            
-            # Validasi: hitam yang tersisa + kosong yang bisa diisi harus >= kebutuhan
+        
+            # harus ada ruang yang cukup untuk sel semua yang dibutuhkan oleh clue
             remaining = clue - black_count
             if remaining < 0 or (empty_count < remaining):
                 return False
