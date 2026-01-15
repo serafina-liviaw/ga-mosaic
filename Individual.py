@@ -42,6 +42,10 @@ class Individual:
         return self.fitness
     
 
+    # NANTI APUS vvv
+    # ini aku bikin 2 method generate individu, yang 1 pake heuristik 1-3 doang kalo yang 2 heuristik 1-4 (mungkin dipake waktu eksperimen)
+    # pertimbangannya, kalo heuristik 4 juga dipakein mungkin(?) bisa lebih cepet algonya (memperkecil search space)
+
     # method untuk generate kromosom berdasarkan strategi heuristik 1-3 + random fill saja
     def generate_chromosome_1stStrat(self):
         self.fill_by_heu1to3()

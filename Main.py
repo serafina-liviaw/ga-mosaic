@@ -66,29 +66,13 @@ def main():
         size, board, popSize, maxGenCount, elitismRate, crossoverRate, mutationRate = read_board_from_file(input_file)
         print(f"ukuran papan: {size}x{size}")
         print_board(board, size, "puzzle input")
-        
-        # buat GeneticAlgorithm untuk solve puzzle
-        print("\n" + "="*50)
-        print("generating solusi...")
-        print("="*50)
 
         # inisialisasi genetic algorithm dengan parameter
         algo = GeneticAlgorithm(board, popSize, maxGenCount, elitismRate, crossoverRate, mutationRate)
         
-        # jalankan solve_mosaic dan dapatkan populasi hasil
-        population = algo.solve_mosaic()
+        print("======== START solver ============")
+        algo.solve_mosaic()
         
-        # print semua solusi dalam populasi
-        for i in range(len(population.individuals)):
-            # print solusi
-            print(f"\nsolusi {i + 1}:")
-            ind = population.individuals[i]
-            print(chromosome_to_string(ind.chromosome, size))
-            print(f"fitness: {ind.fitness}, violation: {ind.violation}")
-        
-        print("\n" + "="*50)
-        print(f"bestFitness: {population.bestFitness}, avgFitness: {population.avgFitness}")
-        print("="*50)
     
     except FileNotFoundError:
         print(f"error: file '{input_file}' tidak ditemukan!")
