@@ -25,7 +25,7 @@ class GeneticAlgorithm:
 
     # method untuk mulai menyelesaikan puzzle
     def solve_mosaic(self):
-        initPop = Population(self.popSize, self.elitismRate, self.mutationRate, self.board)
+        initPop = Population(self.popSize, self.elitismRate, self.mutationRate, self.board, self.crossoverRate)
 
         # generate populasi awal dan lakukan evaluasi fitness
         initPop.generate_population()
@@ -36,7 +36,7 @@ class GeneticAlgorithm:
         
         # lakukan iterasi sebanyak maxGenCount
         for i in range(self.maxGenCount):
-            newPop = Population(self.popSize, self.elitismRate, self.mutationRate, self.board)
+            newPop = Population(self.popSize, self.elitismRate, self.mutationRate, self.board, self.crossoverRate)
 
             # ambil sekian persen individu terbaik untuk next generation
             newPop.doElitism(initPop)
@@ -58,7 +58,22 @@ class GeneticAlgorithm:
             
             initPop = newPop
 
+        # Tampilkan best solution
+        print("\n" + "="*50)
+        print("BEST SOLUTION FOUND")
+        print("="*50)
+        bestIndividual = initPop.individuals[0]
+        print(f"Best Fitness: {bestIndividual.fitness:.5f}")
+        print(f"Violations: {bestIndividual.violation}")
+        print(f"\nBest Solution Grid:")
+        self._print_chromosome(bestIndividual.chromosome)
+        
         return initPop
+    
+    def _print_chromosome(self, chromosome):
+        """Print the chromosome in a readable format"""
+        for row in chromosome:
+            print(''.join(['■' if cell == 1 else '□' for cell in row]))
     
 
 

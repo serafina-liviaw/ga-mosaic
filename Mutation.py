@@ -3,8 +3,19 @@ import random
 # @author Tya Kanaya
 # Sumber kode -> Dokumen Mosaic, LLM
 class Mutation:
+    def __init__(self, mutationRate: float, base_mutation_rate: float = 0.01):
+        """
+        Inisialisasi operator mutasi.
 
-    def adaptive(offspring, parent1, parent2, base_mutation_rate=0.01):
+        Parameter:
+        mutationRate (float): Probabilitas mutasi global (biasanya dari GeneticAlgorithm).
+        base_mutation_rate (float): Tingkat mutasi dasar untuk perhitungan adaptif.
+        """
+        self.mutationRate = mutationRate
+        # base_mutation_rate digunakan sebagai dasar penghitungan tingkat mutasi adaptif
+        self.base_mutation_rate = base_mutation_rate
+
+    def adaptive(self, offspring, parent1, parent2, base_mutation_rate=None):
         """
         Melakukan mutasi adaptif pada offspring berdasarkan kemiripan parent.
         
@@ -15,11 +26,16 @@ class Mutation:
         offspring (list of list): Grid offspring yang akan dimutasi
         parent1 (list of list): Grid parent pertama
         parent2 (list of list): Grid parent kedua
-        base_mutation_rate (float): Tingkat mutasi dasar (default: 0.01)
+        base_mutation_rate (float): Tingkat mutasi dasar. Jika None, menggunakan
+                                    nilai default dari instance.
         
         Returns:
         list of list: Offspring yang telah dimutasi
         """
+
+        # gunakan base_mutation_rate dari instance jika tidak diberikan
+        if base_mutation_rate is None:
+            base_mutation_rate = self.base_mutation_rate
         
         n = len(parent1)    # Ukuran grid
         distance = 0        # Jarak Hamming (jumlah perbedaan bit) antara parent
@@ -42,7 +58,7 @@ class Mutation:
         for i in range(n):
             for j in range(n):
                 # Putuskan secara acak apakah bit ini akan dimutasi
-                if random.random() < mutation_rate:
+                if random.random() < mutation_rate * self.mutationRate:
                     # Lakukan flip bit (untuk nilai biner 0 atau 1)
                     # 0 menjadi 1, 1 menjadi 0
                     offspring[i][j] = 1 - offspring[i][j]

@@ -41,7 +41,7 @@ def chromosome_to_string(chromosome, size):
         row = []
         for j in range(size):
             # 1 = sel hitam, 0 = sel putih
-            row.append(str(chromosome[i][j]))
+            row.append('■' if chromosome[i][j] == 1 else '□')
         result.append(' '.join(row))
 
     return '\n'.join(result)
