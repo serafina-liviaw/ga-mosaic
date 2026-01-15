@@ -1,10 +1,14 @@
 from Individual import Individual
+from Selection import Selection
+from Crossover import Crossover
+from Mutation import Mutation
 import random
+import copy
 
 # Populatipn adalah kumpulan individual/kumpulan kandidat solusi
 # @author  Nadhira Saffanah Zahra, Serafina Livia Wardhana
 class Population:
-    def __init__(self, popSize, elitismRate, mutationRate, board):
+    def __init__(self, popSize, elitismRate, mutationRate, board, crossoverRate=None):
         # jumlah individu dalam satu populasi
         self.popSize = popSize
 
@@ -25,6 +29,14 @@ class Population:
 
         # variabel untuk m
         self.mutationRate = mutationRate
+        
+        # crossoverRate dari GeneticAlgorithm
+        self.crossoverRate = crossoverRate if crossoverRate is not None else 0.8
+
+        # inisialisasi operator genetik
+        self.selection = Selection(elitismRate)
+        self.crossover = Crossover(self.crossoverRate)
+        self.mutation = Mutation(mutationRate)
 
         # print("initialize pop...")
 
@@ -66,8 +78,9 @@ class Population:
     # @param parentPop  populasi pada generasi sebelum
     def doElitism(self, parentPop):
         # print("pick elites...")
+        # gunakan Selection.elitism untuk memilih individu elite
         nElite = int(len(parentPop.individuals) * parentPop.elitismRate) # jumlah individual elite
-        self.individuals = parentPop.individuals[:nElite]
+        self.individuals = self.selection.elitism(parentPop.individuals, elitism_count=nElite)
         
         print("\nelites:")
         for i, ind in enumerate(self.individuals):
@@ -79,13 +92,38 @@ class Population:
         print("\nstart crossover...")
         self.parentLog = []  # Track parent yang dipakai
         
-        # while len(self.individuals) < self.popSize: <<nanti diganti ini yeaa
-        for i in range(6): 
+        # lakukan crossover sampai populasi penuh
+        while len(self.individuals) < self.popSize:
+            # pilih dua parent
             parent1 = self.selectNonElite(parentPop)
             parent2 = self.selectNonElite(parentPop)
             
             # Track parent
             self.parentLog.append((parent1, parent2))
+            
+            # lakukan crossover jika crossoverRate terpenuhi
+            if random.random() < self.crossoverRate:
+                offspring1, offspring2 = self.crossover.blokUniform(parent1.chromosome, parent2.chromosome)
+            else:
+                # jika tidak ada crossover, copy parent sebagai offspring
+                offspring1 = copy.deepcopy(parent1.chromosome)
+                offspring2 = copy.deepcopy(parent2.chromosome)
+            
+            # lakukan mutasi pada offspring
+            offspring1 = self.mutation.adaptive(offspring1, parent1.chromosome, parent2.chromosome)
+            offspring2 = self.mutation.adaptive(offspring2, parent1.chromosome, parent2.chromosome)
+            
+            # buat individual baru dari offspring
+            ind1 = Individual(self.board)
+            ind1.chromosome = offspring1
+            ind1.fitness = -1  # akan dihitung saat evaluate_generation
+            self.individuals.append(ind1)
+            
+            if len(self.individuals) < self.popSize:
+                ind2 = Individual(self.board)
+                ind2.chromosome = offspring2
+                ind2.fitness = -1  # akan dihitung saat evaluate_generation
+                self.individuals.append(ind2)
         
 
     # NANTI APUS vvv
