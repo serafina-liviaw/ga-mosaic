@@ -15,7 +15,7 @@ class Mutation:
         # base_mutation_rate digunakan sebagai dasar penghitungan tingkat mutasi adaptif
         self.base_mutation_rate = base_mutation_rate
 
-    def adaptive(self, offspring, parent1, parent2, base_mutation_rate=None):
+    def adaptive(self, offspring, parent1, parent2):
         """
         Melakukan mutasi adaptif pada offspring berdasarkan kemiripan parent.
         
@@ -26,16 +26,10 @@ class Mutation:
         offspring (list of list): Grid offspring yang akan dimutasi
         parent1 (list of list): Grid parent pertama
         parent2 (list of list): Grid parent kedua
-        base_mutation_rate (float): Tingkat mutasi dasar. Jika None, menggunakan
-                                    nilai default dari instance.
         
         Returns:
         list of list: Offspring yang telah dimutasi
         """
-
-        # gunakan base_mutation_rate dari instance jika tidak diberikan
-        if base_mutation_rate is None:
-            base_mutation_rate = self.base_mutation_rate
         
         n = len(parent1)    # Ukuran grid
         distance = 0        # Jarak Hamming (jumlah perbedaan bit) antara parent
@@ -52,7 +46,7 @@ class Mutation:
         # Rumus: mutation_rate = base_rate * (1 - distance/total_bits)
         # Semakin besar jarak (parent lebih berbeda) -> mutation_rate lebih kecil
         # Semakin kecil jarak (parent lebih mirip) -> mutation_rate lebih besar
-        mutation_rate = base_mutation_rate * (1 - distance / total_bits)
+        mutation_rate = self.base_mutation_rate * (1 - distance / total_bits)
         
         # Terapkan mutasi pada setiap bit di offspring
         for i in range(n):
