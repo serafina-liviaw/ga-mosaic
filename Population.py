@@ -5,10 +5,10 @@ from Mutation import Mutation
 import random
 import copy
 
-# Populatipn adalah kumpulan individual/kumpulan kandidat solusi
-# @author  Nadhira Saffanah Zahra, Serafina Livia Wardhana
+# Population adalah kumpulan individual/kumpulan kandidat solusi
+# @author  Nadhira Saffanah Zahra, Serafina Livia Wardhana, Tya Kanaya
 class Population:
-    def __init__(self, popSize, elitismRate, mutationRate, board, crossoverRate=None):
+    def __init__(self, popSize, elitismRate, tournamentSize, mutationRate, board, crossoverRate=None):
         # jumlah individu dalam satu populasi
         self.popSize = popSize
 
@@ -27,6 +27,9 @@ class Population:
         # variabel untuk menyimpan probabilitas pemilihan individu terbaik
         self.elitismRate = elitismRate
 
+        # variabel untuk menyimpan ukuran turnamen pada saat parent selection
+        self.tournamentSize = tournamentSize
+
         # variabel untuk m
         self.mutationRate = mutationRate
         
@@ -37,7 +40,7 @@ class Population:
         self.selection = Selection(elitismRate)
         self.crossover = Crossover(self.crossoverRate)
         self.mutation = Mutation(mutationRate)
-
+        
         # print("initialize pop...")
 
     # method untuk memulai generasi populasi awal
@@ -95,10 +98,10 @@ class Population:
         # lakukan crossover sampai populasi penuh
         while len(self.individuals) < self.popSize:
             # pilih dua parent
-            parent1 = self.selectNonElite(parentPop)
-            parent2 = self.selectNonElite(parentPop)
+            parent1 = self.selectNonElite(parentPop, self.tournamentSize)
+            parent2 = self.selectNonElite(parentPop, self.tournamentSize)
             
-            # Track parent
+            # Track parent untuk output
             self.parentLog.append((parent1, parent2))
             
             # lakukan crossover jika crossoverRate terpenuhi
@@ -140,10 +143,9 @@ class Population:
     # method untuk melakukan pemilihan individu dari suatu populasi (binary tournament select)
     # dilakukan terhadap **semua individu** pada populasi parent
     # @param parentPop  populasi pada generasi sebelum
-    def select(self, parentPop):
+    # @param k  ukuran tournament
+    def select(self, parentPop, k):
         # print("select parent...")
-        # ukuran tournament
-        tournamentSize = parentPop.popSize
 
         # pilih angka random pertama
         currIdx = random.randint(0, parentPop.popSize-1)
@@ -153,7 +155,7 @@ class Population:
         currIndividual = parentPop.individuals[currIdx]
         # print(f"first candidate selected: {currIdx}")
         
-        for i in range(tournamentSize):
+        for i in range(k-1):
             # pilih angka random kedua
             oppIdx = random.randint(0, parentPop.popSize-1)
             # ulang pemilihan sampai index yang terpilih berbeda
@@ -172,19 +174,17 @@ class Population:
     # method untuk melakukan pemilihan individu dari suatu populasi (binary tournament select)
     # dilakukan terhadap **individu yang belum terpilih saat elitism** pada populasi parent
     # @param parentPop  populasi pada generasi sebelum
-    def selectNonElite(self, parentPop):
+    # @param k  ukuran tournament
+    def selectNonElite(self, parentPop, k):
         # jumlah elites
         # juga merupakan start index saat pemilihan angka random
         nElite = int(len(parentPop.individuals) * parentPop.elitismRate) 
-
-        # ukuran tournament: ukurang populasi - jumlah elites
-        tournamentSize = parentPop.popSize - nElite
 
         # pilih angka random pertama
         currIdx = random.randint(nElite, parentPop.popSize-1)
         currIndividual = parentPop.individuals[currIdx]
 
-        for i in range(tournamentSize):
+        for i in range(k-1):
             # pilih angka random kedua
             oppIdx = random.randint(nElite, parentPop.popSize-1)
             # ulang pemilihan sampai index yang terpilih berbeda
