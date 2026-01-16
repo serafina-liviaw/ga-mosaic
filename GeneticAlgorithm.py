@@ -4,7 +4,7 @@ from Population import Population
 # @author  Nadhira Saffanah Zahra, Serafina Livia Wardhana
 # Sumber kode -> Dokumen Mosaic, LLM 
 class GeneticAlgorithm: 
-    def __init__(self, board, popSize, maxGenCount, elitismRate, crossoverRate, mutationRate):
+    def __init__(self, board, popSize, maxGenCount, elitismRate, tournamentSize, crossoverRate, mutationRate):
         # array 2d berisi clue yang diperlukan untuk menyelesaikan puzzle mosaic
         self.board = board
 
@@ -16,6 +16,9 @@ class GeneticAlgorithm:
         # probabilitas terjadinya elitism 
         self.elitismRate = elitismRate
 
+        # ukuran turnamen pada seleksi
+        self.tournamentSize = tournamentSize
+
         # probabilitas terjadinya crossover
         self.crossoverRate = crossoverRate
 
@@ -25,7 +28,7 @@ class GeneticAlgorithm:
 
     # method untuk mulai menyelesaikan puzzle
     def solve_mosaic(self):
-        initPop = Population(self.popSize, self.elitismRate, self.mutationRate, self.board, self.crossoverRate)
+        initPop = Population(self.popSize, self.elitismRate, self.tournamentSize, self.mutationRate, self.board, self.crossoverRate)
 
         # generate populasi awal dan lakukan evaluasi fitness
         initPop.generate_population()
@@ -36,7 +39,7 @@ class GeneticAlgorithm:
         
         # lakukan iterasi sebanyak maxGenCount
         for i in range(self.maxGenCount):
-            newPop = Population(self.popSize, self.elitismRate, self.mutationRate, self.board, self.crossoverRate)
+            newPop = Population(self.popSize, self.elitismRate, self.tournamentSize, self.mutationRate, self.board, self.crossoverRate)
 
             # ambil sekian persen individu terbaik untuk next generation
             newPop.doElitism(initPop)
