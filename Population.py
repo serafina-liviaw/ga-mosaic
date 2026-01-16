@@ -6,7 +6,7 @@ import random
 import copy
 
 # Populatipn adalah kumpulan individual/kumpulan kandidat solusi
-# @author  Nadhira Saffanah Zahra, Serafina Livia Wardhana
+# @author  Nadhira Saffanah Zahra, Serafina Livia Wardhana, Tya Kanaya
 class Population:
     def __init__(self, popSize, elitismRate, mutationRate, board, crossoverRate=None):
         # jumlah individu dalam satu populasi
