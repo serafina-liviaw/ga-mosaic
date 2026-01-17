@@ -1,5 +1,4 @@
 from Individual import Individual
-from Selection import Selection
 from Crossover import Crossover
 from Mutation import Mutation
 import random
@@ -36,8 +35,7 @@ class Population:
         # crossoverRate dari GeneticAlgorithm
         self.crossoverRate = crossoverRate if crossoverRate is not None else 0.8
 
-        # inisialisasi operator genetik
-        self.selection = Selection(elitismRate)
+        # inisialisasi operator genetik 
         self.crossover = Crossover(self.crossoverRate)
         self.mutation = Mutation(mutationRate)
         
@@ -77,13 +75,13 @@ class Population:
         for i, ind in enumerate(self.individuals):
             print(f"[{i}]: fitness={ind.fitness:.5f}")
 
-    # method mengambil sekian persen individu terbaik dari populasi saat ini (sementara gini, nanti mungkin dimodif tea)
+    # method mengambil sekian persen individu terbaik dari populasi saat ini 
     # @param parentPop  populasi pada generasi sebelum
     def doElitism(self, parentPop):
         # print("pick elites...")
         # gunakan Selection.elitism untuk memilih individu elite
         nElite = int(len(parentPop.individuals) * parentPop.elitismRate) # jumlah individual elite
-        self.individuals = self.selection.elitism(parentPop.individuals, elitism_count=nElite)
+        self.individuals = parentPop.individuals[:nElite]
         
         print("\nelites:")
         for i, ind in enumerate(self.individuals):
