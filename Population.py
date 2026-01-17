@@ -43,7 +43,7 @@ class Population:
 
     # method untuk memulai generasi populasi awal
     def generate_population(self):
-        print("generating pop...")
+        # print("generating pop...")
         for i in range(self.popSize):
             individual = Individual(self.board)
             individual.generate_chromosome_1stStrat()
@@ -51,7 +51,7 @@ class Population:
 
     # ======= FUNGSI EVALUATE GENERASI ========
     def evaluate_generation(self):
-        print("\nevaluate pop...")
+        # print("\nevaluate pop...")
         # buat empat variabel untuk menyimpan total fitness, best fitness, avg fitness, dan jumlah violation
         totalFitness = 0
         self.bestFitness = -1
@@ -72,8 +72,8 @@ class Population:
         # urutkan individuals juga berdasarkan fitness
         self.individuals.sort(key=lambda x: x.fitness, reverse=True)
 
-        for i, ind in enumerate(self.individuals):
-            print(f"[{i}]: fitness={ind.fitness:.5f}")
+        # for i, ind in enumerate(self.individuals):
+        #     print(f"[{i}]: fitness={ind.fitness:.5f}")
 
     # method mengambil sekian persen individu terbaik dari populasi saat ini 
     # @param parentPop  populasi pada generasi sebelum
@@ -83,14 +83,14 @@ class Population:
         nElite = int(len(parentPop.individuals) * parentPop.elitismRate) # jumlah individual elite
         self.individuals = parentPop.individuals[:nElite]
         
-        print("\nelites:")
-        for i, ind in enumerate(self.individuals):
-            print(f"[{i}]: fitness={ind.fitness:.5f}")
+        # print("\nelites:")
+        # for i, ind in enumerate(self.individuals):
+        #     print(f"[{i}]: fitness={ind.fitness:.5f}")
        
     # method untuk melakukan terhadap individu yang belum terpilih elitism (exploration) untuk mengisi sisa slot next gen 
     # @param parentPop  populasi pada generasi sebelum
     def doCrossover(self, parentPop): # hasil cross langsung ditambahin ke self.inidividuals aja te
-        print("\nstart crossover...")
+        # print("\nstart crossover...")
         self.parentLog = []  # Track parent yang dipakai
         
         # lakukan crossover sampai populasi penuh

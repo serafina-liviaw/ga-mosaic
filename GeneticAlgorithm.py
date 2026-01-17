@@ -32,10 +32,10 @@ class GeneticAlgorithm:
 
         # generate populasi awal dan lakukan evaluasi fitness
         initPop.generate_population()
-        print(f"\n=== Generation 0 ===")
+        # print(f"\n=== Generation 0 ===")
         initPop.evaluate_generation()
-        print(f"\nBest Fitness: {initPop.bestFitness:.5f}")
-        print(f"Avg Fitness: {initPop.avgFitness:.5f}")
+        # print(f"\nBest Fitness: {initPop.bestFitness:.5f}")
+        # print(f"Avg Fitness: {initPop.avgFitness:.5f}")
         
         # lakukan iterasi sebanyak maxGenCount
         for i in range(self.maxGenCount):
@@ -48,15 +48,15 @@ class GeneticAlgorithm:
             newPop.doCrossover(initPop)
 
             # ringkasan crossover beberapa parent pertama
-            print(f"\nParent Selection (first 3):")
-            for j, (p1, p2) in enumerate(newPop.parentLog[:3]):
-                print(f"  Crossover {j+1}: Parent1 fitness={p1.fitness:.5f}, Parent2 fitness={p2.fitness:.5f}")
+            # print(f"\nParent Selection (first 3):")
+            # for j, (p1, p2) in enumerate(newPop.parentLog[:3]):
+            #     print(f"  Crossover {j+1}: Parent1 fitness={p1.fitness:.5f}, Parent2 fitness={p2.fitness:.5f}")
 
             # evaluasi generasi baru
-            print(f"\n=== Generation {i + 1} ===")
+            # print(f"\n=== Generation {i + 1} ===")
             newPop.evaluate_generation()
-            print(f"Best Fitness: {newPop.bestFitness:.5f}")
-            print(f"Avg Fitness: {newPop.avgFitness:.5f}")
+            # print(f"Best Fitness: {newPop.bestFitness:.5f}")
+            # print(f"Avg Fitness: {newPop.avgFitness:.5f}")
 
             
             initPop = newPop
