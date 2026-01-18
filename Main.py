@@ -1,4 +1,6 @@
 from GeneticAlgorithm import GeneticAlgorithm
+from Puzzle import Puzzle
+from GeneticAlgorithmConfig import GeneticAlgorithmConfig
 import time
 import random
 
@@ -107,14 +109,25 @@ def main():
 
             size, board, popSize, maxGenCount, elitismRate, tournamentSize, crossoverRate, mutationRate = case
 
+            # Create Puzzle dan Config objects
+            puzzle = Puzzle(board, size)
+            config = GeneticAlgorithmConfig(
+                population_size=popSize,
+                max_generations=maxGenCount,
+                elitism_rate=elitismRate,
+                tournament_size=tournamentSize,
+                crossover_rate=crossoverRate,
+                mutation_rate=mutationRate
+            )
+            
             # panggil fungsi genetic serta memasukkan parameter
-            algo = GeneticAlgorithm(board, popSize, maxGenCount, elitismRate, tournamentSize, crossoverRate, mutationRate)
+            algo = GeneticAlgorithm(puzzle, config)
 
             # simpan untuk menghitung waktu run
             start = time.time()
 
             # simpan hasil akhir run
-            final_population = algo.solve_mosaic()
+            evolution_result = algo.solve_mosaic()
 
             # simpan untuk menghitung waktu run
             end = time.time()
@@ -122,12 +135,12 @@ def main():
             # simpan waktu total run
             elapsed = end - start
             times.append(elapsed)
+            evolution_result.execution_time = elapsed
 
             print(f"Time : {elapsed:.4f} detik")
 
             # Cek apakah solved berdasarkan best individual
-            best_individual = final_population.individuals[0]
-            if best_individual.violation == 0:
+            if evolution_result.is_solved:
                 print("Status: SOLVED")
                 solved_count += 1
             else:

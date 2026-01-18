@@ -1,45 +1,48 @@
 from Population import Population
+from Puzzle import Puzzle
+from GeneticAlgorithmConfig import GeneticAlgorithmConfig
+from EvolutionResult import EvolutionResult, GenerationStats
 
 # GeneticAlgorithm adalah kode utama yang mengatur alur algoritma genetik dari inisialisasi populasi awal, parent selection, crossover, hingga pemilihan individu/solusi terbaik
 # @author  Nadhira Saffanah Zahra, Serafina Livia Wardhana
 # Sumber kode -> Dokumen Mosaic, LLM 
 class GeneticAlgorithm: 
-    def __init__(self, board, popSize, maxGenCount, elitismRate, tournamentSize, crossoverRate, mutationRate):
-        # array 2d berisi clue yang diperlukan untuk menyelesaikan puzzle mosaic
-        self.board = board
-
-        self.popSize = popSize
-
-        # jumlah maksimal generasi yang digenerate
-        self.maxGenCount = maxGenCount
-
-        # probabilitas terjadinya elitism 
-        self.elitismRate = elitismRate
-
-        # ukuran turnamen pada seleksi
-        self.tournamentSize = tournamentSize
-
-        # probabilitas terjadinya crossover
-        self.crossoverRate = crossoverRate
-
-        # probabilitas terjadinya mutasi
-        self.mutationRate = mutationRate
+    def __init__(self, puzzle: Puzzle, config: GeneticAlgorithmConfig):
+        """
+        Initialize Genetic Algorithm.
+        
+        Parameter:
+        puzzle (Puzzle): Puzzle object
+        config (GeneticAlgorithmConfig): GA configuration
+        """
+        self.puzzle = puzzle
+        self.board = puzzle.board
+        self.config = config
 
 
     # method untuk mulai menyelesaikan puzzle
     def solve_mosaic(self):
-        initPop = Population(self.popSize, self.elitismRate, self.tournamentSize, self.mutationRate, self.board, self.crossoverRate)
+        result = EvolutionResult()
+        
+        initPop = Population(self.config.population_size, self.config.elitism_rate, self.config.tournament_size, self.config.mutation_rate, self.board, self.config.crossover_rate)
 
         # generate populasi awal dan lakukan evaluasi fitness
         initPop.generate_population()
-        # print(f"\n=== Generation 0 ===")
         initPop.evaluate_generation()
-        # print(f"\nBest Fitness: {initPop.bestFitness:.5f}")
-        # print(f"Avg Fitness: {initPop.avgFitness:.5f}")
+        
+        # Track generation 0
+        stat = GenerationStats(
+            generation=0,
+            best_fitness=initPop.bestFitness,
+            avg_fitness=initPop.avgFitness,
+            worst_fitness=min(ind.fitness for ind in initPop.individuals),
+            best_violation=initPop.individuals[0].violation
+        )
+        result.generation_stats.append(stat)
         
         # lakukan iterasi sebanyak maxGenCount
-        for i in range(self.maxGenCount):
-            newPop = Population(self.popSize, self.elitismRate, self.tournamentSize, self.mutationRate, self.board, self.crossoverRate)
+        for i in range(self.config.max_generations):
+            newPop = Population(self.config.population_size, self.config.elitism_rate, self.config.tournament_size, self.config.mutation_rate, self.board, self.config.crossover_rate)
 
             # ambil sekian persen individu terbaik untuk next generation
             newPop.doElitism(initPop)
@@ -47,31 +50,38 @@ class GeneticAlgorithm:
             # lakukan crossover
             newPop.doCrossover(initPop)
 
-            # ringkasan crossover beberapa parent pertama
-            # print(f"\nParent Selection (first 3):")
-            # for j, (p1, p2) in enumerate(newPop.parentLog[:3]):
-            #     print(f"  Crossover {j+1}: Parent1 fitness={p1.fitness:.5f}, Parent2 fitness={p2.fitness:.5f}")
-
             # evaluasi generasi baru
-            # print(f"\n=== Generation {i + 1} ===")
             newPop.evaluate_generation()
-            # print(f"Best Fitness: {newPop.bestFitness:.5f}")
-            # print(f"Avg Fitness: {newPop.avgFitness:.5f}")
-
+            
+            # Track generation stats
+            stat = GenerationStats(
+                generation=i + 1,
+                best_fitness=newPop.bestFitness,
+                avg_fitness=newPop.avgFitness,
+                worst_fitness=min(ind.fitness for ind in newPop.individuals),
+                best_violation=newPop.individuals[0].violation
+            )
+            result.generation_stats.append(stat)
             
             initPop = newPop
 
+        # Set result data
+        bestIndividual = initPop.individuals[0]
+        result.best_individual = bestIndividual
+        result.best_fitness = bestIndividual.fitness
+        result.total_generations = self.config.max_generations
+        result.is_solved = (bestIndividual.violation == 0)
+        
         # Tampilkan best solution
         print("\n" + "="*50)
         print("BEST SOLUTION FOUND")
         print("="*50)
-        bestIndividual = initPop.individuals[0]
         print(f"Best Fitness: {bestIndividual.fitness:.5f}")
         print(f"Violations: {bestIndividual.violation}")
         print(f"\nBest Solution Grid:")
         self._print_chromosome(bestIndividual.chromosome)
         
-        return initPop
+        return result
     
     def _print_chromosome(self, chromosome):
         """Print the chromosome in a readable format"""
