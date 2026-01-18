@@ -90,7 +90,7 @@ def main():
     print("Seed yang digunakan:", SEED)
 
     # baca file input
-    input_file = "puzzle.txt"
+    input_file = "hard10x10.txt"
     cases = read_board_from_file(input_file)
     print(f"Total test case: {len(cases)}")
 
