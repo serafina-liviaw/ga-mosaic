@@ -69,7 +69,6 @@ class GeneticAlgorithm:
         bestIndividual = initPop.individuals[0]
         result.best_individual = bestIndividual
         result.best_fitness = bestIndividual.fitness
-        result.total_generations = self.config.max_generations
         result.is_solved = (bestIndividual.violation == 0)
         
         # Tampilkan best solution
@@ -87,13 +86,3 @@ class GeneticAlgorithm:
         """Print the chromosome in a readable format"""
         for row in chromosome:
             print(''.join(['■' if cell == 1 else '□' for cell in row]))
-    
-
-
-
- 
-    
-    
-
-
-

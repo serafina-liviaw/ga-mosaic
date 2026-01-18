@@ -139,6 +139,9 @@ def main():
 
             print(f"Time : {elapsed:.4f} detik")
 
+            # Export statistika per generasi 
+            evolution_result.export_stats_to_file(f"stats_case_{idx + 1}.txt")
+
             # Cek apakah solved berdasarkan best individual
             if evolution_result.is_solved:
                 print("Status: SOLVED")
