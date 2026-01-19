@@ -92,7 +92,7 @@ def main():
     print("Seed yang digunakan:", SEED)
 
     # baca file input - bisa diganti-ganti sesuai file yang ingin di-solve puzzlenya
-    input_file = "easy5x5.txt"
+    input_file = "easy10x10.txt"
 
     # set nama file output -> result_input file
     output_file = f"result_{input_file}"
