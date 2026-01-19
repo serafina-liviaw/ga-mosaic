@@ -1,6 +1,7 @@
 from GeneticAlgorithm import GeneticAlgorithm
 import time
 import random
+import sys
 
 # baca file txt dan parse board puzzle mosaic + parameter GA
 def read_board_from_file(filename):
@@ -90,7 +91,7 @@ def main():
     print("Seed yang digunakan:", SEED)
 
     # baca file input
-    input_file = "hard10x10.txt"
+    input_file = "easy15x15.txt"
     cases = read_board_from_file(input_file)
     print(f"Total test case: {len(cases)}")
 
