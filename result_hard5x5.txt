@@ -1,0 +1,19 @@
+==================================================
+MOSAIC GA SOLVER - EXPERIMENT RESULTS
+==================================================
+Input file: hard5x5.txt
+Seed: 1231
+==================================================
+Total test case: 20
+
+==================================================
+Test Case #1
+==================================================
+
+GA Parameters:
+  Population Size   : 500
+  Max Generations   : 600
+  Elitism Rate      : 0.05
+  Tournament Size   : 3
+  Crossover Rate    : 0.01
+  Mutation Rate     : 0.8
