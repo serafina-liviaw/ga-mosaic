@@ -4,33 +4,18 @@ import copy
 # @author Tya Kanaya
 # Sumber kode -> Dokumen Mosaic, LLM
 class Crossover:
+
+    # Inisialisasi operator crossover.
     def __init__(self, crossoverRate: float, block_size: int = 3, swap_prob: float = 0.5):
-        """
-        Inisialisasi operator crossover.
+          
+        self.crossoverRate = crossoverRate  # Probabilitas terjadinya crossover
+        self.block_size = block_size        # Ukuran sisi blok yang akan dipertukarkan
+        self.swap_prob = swap_prob          # Probabilitas pertukaran setiap blok
 
-        Parameter:
-        crossoverRate (float): Probabilitas terjadinya crossover (biasanya dari GeneticAlgorithm).
-        block_size (int): Ukuran sisi blok yang akan dipertukarkan (default: 3).
-        swap_prob (float): Probabilitas pertukaran setiap blok (0.0-1.0, default: 0.5).
-        """
-        self.crossoverRate = crossoverRate
-        self.block_size = block_size
-        self.swap_prob = swap_prob
-
-    def blokUniform(self, parent1, parent2):
-        """
-        Melakukan crossover antara dua parent dengan metode pertukaran blok-uniform / region-based.
-        
-        Fungsi ini membagi grid menjadi blok-blok berukuran tertentu, kemudian
-        memutuskan secara acak apakah akan menukar setiap blok antara kedua parent.
-        
-        Parameter:
-        parent1 (list of list): Grid parent pertama (matriks 2D)
-        parent2 (list of list): Grid parent kedua (matriks 2D)
-        
-        Returns:
-        tuple: Dua offspring hasil crossover (offspring1, offspring2)
-        """
+    # Melakukan crossover antara dua parent dengan metode pertukaran blok-uniform / region-based.
+    # @param parent1: Grid parent pertama (matriks 2D)
+    # @param parent2: Grid parent kedua (matriks 2D)
+    def blokUniform(self, parent1, parent2): 
 
         n = len(parent1)  # Ukuran grid (n x n) 
 
