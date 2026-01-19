@@ -1,0 +1,8 @@
+==================================================
+MOSAIC GA SOLVER - EXPERIMENT RESULTS
+==================================================
+Input file: hard10x10.txt
+Seed: 42
+==================================================
+error: file 'hard10x10.txt' tidak ditemukan!
+pastikan file ada di direktori yang sama dengan Main.py

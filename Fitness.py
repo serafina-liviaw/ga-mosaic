@@ -52,10 +52,17 @@ class Fitness:
     def count_black_box(self, chromosome, x, y):
         count = 0
 
+        # Mengecek seluruh sel di sekitar koordinat (x, y), termasuk dirinya sendiri
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
+
+                # Hitung koordinat tetangga
                 nx, ny = x + dx, y + dy
+
+                # Pastikan koordinat masih berada di dalam papan
                 if 0 <= nx < self.size and 0 <= ny < self.size:
+                    # Tambahkan nilai sel tersebut ke dalam count
+                    # (biasanya 1 jika terisi, 0 jika kosong)
                     count += chromosome[nx][ny]
         return count
 
