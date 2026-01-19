@@ -2,7 +2,7 @@ import math
 
 # Class ini digunakan untuk mengevaluasi fitness dari solusi individual
 # @author  Nadhira Saffanah Zahra
-#Sumber kode -> Dokumen Mosaic, LLM 
+# Sumber kode -> Dokumen Mosaic, LLM
 class Fitness:
     def __init__(self, board):
         # ukuran papan game mosaic
@@ -51,12 +51,18 @@ class Fitness:
     # count_black_box : hitung jumlah kotak hitam sebenarnya pada papan individual 
     def count_black_box(self, chromosome, x, y):
         count = 0
-        
-        #masih belom paham 
+
+        # Mengecek seluruh sel di sekitar koordinat (x, y), termasuk dirinya sendiri
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
+
+                # Hitung koordinat tetangga
                 nx, ny = x + dx, y + dy
+
+                # Pastikan koordinat masih berada di dalam papan
                 if 0 <= nx < self.size and 0 <= ny < self.size:
+                    # Tambahkan nilai sel tersebut ke dalam count
+                    # (biasanya 1 jika terisi, 0 jika kosong)
                     count += chromosome[nx][ny]
         return count
 
