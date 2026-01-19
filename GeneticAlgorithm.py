@@ -77,13 +77,3 @@ class GeneticAlgorithm:
         """Print the chromosome in a readable format"""
         for row in chromosome:
             print(''.join(['■' if cell == 1 else '□' for cell in row]))
-    
-
-
-
- 
-    
-    
-
-
-

@@ -3,33 +3,18 @@ import random
 # @author Tya Kanaya
 # Sumber kode -> Dokumen Mosaic, LLM
 class Mutation:
-    def __init__(self, mutationRate: float, base_mutation_rate: float = 0.01):
-        """
-        Inisialisasi operator mutasi.
 
-        Parameter:
-        mutationRate (float): Probabilitas mutasi global (biasanya dari GeneticAlgorithm).
-        base_mutation_rate (float): Tingkat mutasi dasar untuk perhitungan adaptif.
-        """
-        self.mutationRate = mutationRate
-        # base_mutation_rate digunakan sebagai dasar penghitungan tingkat mutasi adaptif
-        self.base_mutation_rate = base_mutation_rate
+    # Inisialisasi operator mutasi.
+    def __init__(self, mutationRate: float, base_mutation_rate: float = 0.01): 
 
+        self.mutationRate = mutationRate # Probabilitas mutasi global 
+        self.base_mutation_rate = base_mutation_rate # Tingkat mutasi dasar untuk perhitungan adaptif.
+
+    # Melakukan mutasi adaptif (berdasarkan jarak Hamming) pada offspring berdasarkan kemiripan parent.
+    # @param offspring: Grid offspring yang akan dimutasi
+    # @param parent1: Grid parent pertama   
+    # @param parent2: Grid parent kedua
     def adaptive(self, offspring, parent1, parent2):
-        """
-        Melakukan mutasi adaptif pada offspring berdasarkan kemiripan parent.
-        
-        Tingkat mutasi diadaptasi berdasarkan jarak Hamming antara kedua parent.
-        Jika parent sangat berbeda, tingkat mutasi lebih rendah, dan sebaliknya.
-        
-        Parameter:
-        offspring (list of list): Grid offspring yang akan dimutasi
-        parent1 (list of list): Grid parent pertama
-        parent2 (list of list): Grid parent kedua
-        
-        Returns:
-        list of list: Offspring yang telah dimutasi
-        """
         
         n = len(parent1)    # Ukuran grid
         distance = 0        # Jarak Hamming (jumlah perbedaan bit) antara parent
