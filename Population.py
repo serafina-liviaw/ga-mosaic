@@ -38,8 +38,6 @@ class Population:
         # inisialisasi operator genetik 
         self.crossover = Crossover(self.crossoverRate)
         self.mutation = Mutation(mutationRate)
-        
-        # print("initialize pop...")
 
     # method untuk memulai generasi populasi awal
     def generate_population(self):
@@ -51,7 +49,6 @@ class Population:
 
     # ======= FUNGSI EVALUATE GENERASI ========
     def evaluate_generation(self):
-        # print("\nevaluate pop...")
         # buat empat variabel untuk menyimpan total fitness, best fitness, avg fitness, dan jumlah violation
         totalFitness = 0
         self.bestFitness = -1
@@ -72,25 +69,16 @@ class Population:
         # urutkan individuals juga berdasarkan fitness
         self.individuals.sort(key=lambda x: x.fitness, reverse=True)
 
-        # for i, ind in enumerate(self.individuals):
-        #     print(f"[{i}]: fitness={ind.fitness:.5f}")
-
     # method mengambil sekian persen individu terbaik dari populasi saat ini 
     # @param parentPop  populasi pada generasi sebelum
     def doElitism(self, parentPop):
-        # print("pick elites...")
         # gunakan Selection.elitism untuk memilih individu elite
         nElite = int(len(parentPop.individuals) * parentPop.elitismRate) # jumlah individual elite
         self.individuals = parentPop.individuals[:nElite]
-        
-        # print("\nelites:")
-        # for i, ind in enumerate(self.individuals):
-        #     print(f"[{i}]: fitness={ind.fitness:.5f}")
        
     # method untuk melakukan terhadap individu yang belum terpilih elitism (exploration) untuk mengisi sisa slot next gen 
     # @param parentPop  populasi pada generasi sebelum
     def doCrossover(self, parentPop): # hasil cross langsung ditambahin ke self.inidividuals aja te
-        # print("\nstart crossover...")
         self.parentLog = []  # Track parent yang dipakai
         
         # lakukan crossover sampai populasi penuh
@@ -127,15 +115,14 @@ class Population:
                 self.individuals.append(ind2)
         
 
-    # NANTI APUS vvv
-    # ini ak bikin dua parent selection (mungkin bisa buat eksperimen)
-    # pertimbangannya kalo seleksi dilakukan thd semua individu kaya di doc, ada kemungkinan dia inbreeding (local max?)
+   
+    # Dibuat dua parent selection dengan pertimbangan jika seleksi dilakukan thd semua individu pada populasi termasuk elites, ada kemungkinan terjadi "inbreeding"
     # misal
-    # waktu elitism individu a kepilih, trus dimasukin ke next gen
-    # waktu crossover individu a kawin sm b, trus dimasukin ke next gen
-    # di next gen ada kemungkinan individu a kawin sama anaknya sendiri
-    # sebenernya tergantung crossRate, elitismRate, ukuran populasi juga si, sm mau lebih eksplor/eksploit
-    # contoh inbreeding gapapa: kalo elitism rate kecil & ukuran populasi besar (& mutationRate gedean)
+    # saat elitism individu a terpilih, a masuk ke next gen
+    # saat crossover individu a kawin sm b, keturunan mereka masuk ke next gen
+    # di next gen ada kemungkinan individu a kawin dengan anaknya sendiri
+    # tetapi hal ini tetap bergantung pada crossRate, elitismRate, ukuran populasi, dan ingin eksplor/eksploit tidaknya
+    # contoh inbreeding tidak masalah: jika elitism rate kecil & ukuran populasi besar + mutationRate besar
 
 
     # method untuk melakukan pemilihan individu dari suatu populasi (binary tournament select)
@@ -165,8 +152,6 @@ class Population:
             if(currIndividual.fitness < oppIndividual.fitness):
                 currIndividual = oppIndividual
 
-        # print(f"second candidate selected: {oppIdx}")
-        # print("return selected")
         return currIndividual
     
     # method untuk melakukan pemilihan individu dari suatu populasi (binary tournament select)
@@ -193,7 +178,6 @@ class Population:
             # update currIndividual dengan oppIdx individual jika fitness oppIdx lebih besar
             if(currIndividual.fitness < oppIndividual.fitness):
                 currIndividual = oppIndividual
-
-        # print("return selected parent")
+                
         return currIndividual
 
