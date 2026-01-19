@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d612803b-2f6f-4102-ba8e-acef783d9733" name="Changes" comment="" />
+    <list default="true" id="d612803b-2f6f-4102-ba8e-acef783d9733" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Crossover.py" beforeDir="false" afterPath="$PROJECT_DIR$/Crossover.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/GeneticAlgorithm.py" beforeDir="false" afterPath="$PROJECT_DIR$/GeneticAlgorithm.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Mutation.py" beforeDir="false" afterPath="$PROJECT_DIR$/Mutation.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/easy10x10.txt" beforeDir="false" afterPath="$PROJECT_DIR$/easy10x10.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hard10x10.txt" beforeDir="false" afterPath="$PROJECT_DIR$/hard10x10.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/result_easy5x5.txt" beforeDir="false" afterPath="$PROJECT_DIR$/result_easy5x5.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,6 +29,8 @@
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
@@ -27,8 +38,9 @@
     "Python.Main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "revisi-main-function",
-    "last_opened_file_path": "C:/Users/Nadhira Saffanah/Documents/File Kuliah/Semester 7/AI/Mosaic/04/ga-mosaic"
+    "git-widget-placeholder": "Merging revisi-main-function",
+    "last_opened_file_path": "C:/Users/Nadhira Saffanah/Documents/File Kuliah/Semester 7/AI/Mosaic/04/ga-mosaic",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>
   <component name="RunManager">
@@ -41,9 +53,8 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.11" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Main.py" />
