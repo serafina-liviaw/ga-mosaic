@@ -60,18 +60,6 @@ def read_board_from_file(filename):
     # return tiap test case
     return cases
 
-# # konversi kromosom jadi string untuk print menjadi output
-# def chromosome_to_string(chromosome, size):
-#     result = []
-#     for i in range(size):
-#         row = []
-#         for j in range(size):
-#             # 1 = sel hitam, 0 = sel putih
-#             row.append('■' if chromosome[i][j] == 1 else '□')
-#         result.append(' '.join(row))
-
-#     return '\n'.join(result)
-
 # print papan permainan (belum diwarnai)
 def print_board(board, size, label="board"):
     print(f"\n{label}:")
