@@ -58,8 +58,6 @@ class GeneticAlgorithm:
             # print(f"Best Fitness: {newPop.bestFitness:.5f}")
             # print(f"Avg Fitness: {newPop.avgFitness:.5f}")
 
-            
-            initPop = newPop
 
         # Tampilkan best solution
         print("\n" + "="*50)
