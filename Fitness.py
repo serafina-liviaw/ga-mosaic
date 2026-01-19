@@ -51,8 +51,7 @@ class Fitness:
     # count_black_box : hitung jumlah kotak hitam sebenarnya pada papan individual 
     def count_black_box(self, chromosome, x, y):
         count = 0
-        
-        #masih belom paham 
+
         for dx in [-1, 0, 1]:
             for dy in [-1, 0, 1]:
                 nx, ny = x + dx, y + dy
